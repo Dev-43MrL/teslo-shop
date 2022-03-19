@@ -49,6 +49,10 @@ export const Navbar = () => {
             </Link>
         </NextLink>
 
+        <Button>
+            Menu
+        </Button>
+
       </Toolbar>
     </AppBar>
   );
