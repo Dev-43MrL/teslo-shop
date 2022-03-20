@@ -28,11 +28,11 @@ export default function ProductPage() {
               <SizeSelector sizes={product.sizes}/>
 
               {/* Agregar al Carrito */}
-              <Button color="secondary" className="circular-btn">
+              <Button color="secondary" className="circular-btn" fullWidth>
                 Agregar al carrito
               </Button>
 
-              {/* <Chip label='No hay disponibles' color="error" variant="outlined" /> */}
+              {/* <Chip label='No hay disponibles' color="error" variant="outlined" fullWidth/> */}
               
               {/* Description */}
               <Box sx={{ mt: 2 }}>
