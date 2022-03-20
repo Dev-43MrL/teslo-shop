@@ -1,6 +1,6 @@
 import { Grid, Typography, Box, Button, Chip } from "@mui/material";
 import { ShopLayout } from "../../components/layouts/ShopLayout";
-import { ProductSlideshow } from "../../components/products";
+import { ProductSlideshow, SizeSelector } from "../../components/products";
 import { ItemCounter } from "../../components/ui";
 import { initialData } from "../../database/products";
 
@@ -24,6 +24,8 @@ export default function ProductPage() {
             <Box sx={{ my: 2 }}>
               <Typography variant="subtitle2" component="h2">Cantidad</Typography>
               <ItemCounter />
+              {/* <SizeSelector selectedSize={product.sizes[0]} sizes={product.sizes}/> */}
+              <SizeSelector sizes={product.sizes}/>
 
               {/* Agregar al Carrito */}
               <Button color="secondary" className="circular-btn">
