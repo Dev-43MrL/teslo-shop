@@ -1,41 +1,56 @@
-import { Box, Card, CardActionArea, CardMedia, Grid, Typography } from '@mui/material'
-import { IProduct } from '../../interfaces/products';
-import { FC, useMemo, useState } from 'react';
+import {
+  Link,
+  Box,
+  Card,
+  CardActionArea,
+  CardMedia,
+  Grid,
+  Typography,
+} from "@mui/material";
+import { IProduct } from "../../interfaces/products";
+import { FC, useMemo, useState } from "react";
+import NextLink from "next/link";
 
 interface Props {
   product: IProduct;
 }
 
 export const ProductCard: FC<Props> = ({ product }) => {
-
-  const [isHovered, setIsHovered]= useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const productImage = useMemo(() => {
     return isHovered
       ? `products/${product.images[1]}`
-      : `products/${product.images[0]}`
-  },[isHovered, product.images])
+      : `products/${product.images[0]}`;
+  }, [isHovered, product.images]);
 
   return (
-    <Grid item 
-      xs={6} onMouseLeave={() => setIsHovered(false)}
-      sm={4} onMouseEnter={() => setIsHovered(true)}
+    <Grid
+      item
+      xs={6}
+      onMouseLeave={() => setIsHovered(false)}
+      sm={4}
+      onMouseEnter={() => setIsHovered(true)}
       key={product.slug}
     >
       <Card>
-        <CardActionArea>
-          <CardMedia 
-            component='img'
-            className='fadeIn'
-            image={productImage}
-            alt={product.title}
-          />
-        </CardActionArea>
+        <NextLink href="/product/slug" passHref prefetch={false}>
+          <Link>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                className="fadeIn"
+                image={productImage}
+                alt={product.title}
+              />
+            </CardActionArea>
+          </Link>
+        </NextLink>
       </Card>
 
-      <Box sx={{ mt: 1}} className='fadeIn'>
+      <Box sx={{ mt: 1 }} className="fadeIn">
         <Typography fontWeight={700}>{product.title}</Typography>
         <Typography fontWeight={500}>{`$${product.price}`}</Typography>
       </Box>
     </Grid>
-  )
-}
+  );
+};
