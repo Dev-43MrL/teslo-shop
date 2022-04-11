@@ -9,14 +9,6 @@ type Data =
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
-    const { gender = 'all' }= req.query;
-
-    let condition= {}
-
-    if( gender !== 'all' && SHOP_CONSTANTS.validGenders.includes(`${gender}`) ){
-        condition = { gender }
-    }
-
     switch ( req.method ) {
         case 'GET':
             
@@ -31,9 +23,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 
 const getProducts = async( req: NextApiRequest, res: NextApiResponse<Data> ) => {
 
-    await db.connect();
+    const { gender = 'all' }= req.query;
 
-    const products = await Product.find()
+    let condition= {}
+
+    if( gender !== 'all' && SHOP_CONSTANTS.validGenders.includes(`${gender}`) ){
+        condition = { gender }
+    }
+
+    await db.connect();
+    
+    const products = await Product.find(condition)
         .select('title images price inStock slug -_id')
         .lean();
 
