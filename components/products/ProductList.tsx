@@ -9,8 +9,6 @@ interface Props {
 
 export const ProductList: FC<Props> = ({ products }) => {
 
-  console.log(products, 'Products')
-
   return (
     <Grid container spacing={4}>
         {
