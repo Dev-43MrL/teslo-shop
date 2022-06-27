@@ -1,9 +1,11 @@
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Link, TextField, Typography, Chip } from '@mui/material';
+import { ErrorOutline } from '@mui/icons-material';
 import { AuthLayout } from "../../components/layouts";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import { validations } from "../../utils";
 import { tesloApi } from "../../api";
+import { useState } from 'react';
 
 type FormData = {
 	email: string;
@@ -17,7 +19,11 @@ export default function LoginPage() {
 		formState: { errors },
 	} = useForm<FormData>();
 
+	const [showError, setShowError] = useState(true);
+
 	const handleLoginUser = async( { email, password }: FormData ) => {
+
+		setShowError(false);		
 		try {
 			const { data } = await tesloApi.post('/user/login', { email, password })
 			const { token, user } = data;
@@ -25,6 +31,8 @@ export default function LoginPage() {
 
 		} catch (error) {
 			console.log('Error en las credenciales');
+			setShowError(true);
+			setTimeout(() => setShowError(false), 3000);
 		}
 	}
 
@@ -37,6 +45,13 @@ export default function LoginPage() {
 							<Typography variant="h1" component="h1">
 								Iniciar Sesion
 							</Typography>
+							<Chip 
+								label='No reconocemos ese usuario / contraseña' 
+								color='error'
+								icon={<ErrorOutline />}
+								className='fadeIn'
+								sx={{ display: showError ? 'flex' : 'none' }}
+							/>
 						</Grid>
 
 						<Grid item xs={12}>
