@@ -35,7 +35,9 @@ export default function LoginPage() {
 			setTimeout(() => setShowError(false), 3000);
 			return;
 		}
-		router.replace('/');
+
+		const destination = router.query.p?.toString() || '/';
+		router.replace(destination);
 	}
 
 	return (
