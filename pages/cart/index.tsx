@@ -32,8 +32,7 @@ export default function CartPage() {
 			pageDescription="Carrito de compras de la tienda"
 		>
 			<Typography variant="h1" component="h1">
-				{" "}
-				Carrito{" "}
+				Carrito
 			</Typography>
 			<Grid container>
 				<Grid item xs={12} sm={7}>
@@ -50,7 +49,12 @@ export default function CartPage() {
 							<OrdernSummary />
 
 							<Box>
-								<Button color="secondary" className="circular-btn" fullWidth>
+								<Button 
+                                    color="secondary" 
+                                    className="circular-btn" 
+                                    fullWidth
+                                    href="/checkout/address"
+                                >
 									Checkout
 								</Button>
 							</Box>

@@ -1,5 +1,7 @@
+import { GetServerSideProps } from 'next';
 import { Typography, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Box, Button } from '@mui/material';
 import { ShopLayout } from "../../components/layouts";
+import { jwt } from '../../utils';
 
 export default function AddressPage() {
   return (
@@ -52,4 +54,31 @@ export default function AddressPage() {
         </Box>
     </ShopLayout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const { token = '' } = req.cookies;
+    let isValidToken = false;
+    
+    try {
+        await jwt.isValidToken(token);
+        isValidToken = true;
+    } catch (error) {
+        isValidToken = false;
+    }
+
+    if( !isValidToken ){
+        return {
+            redirect: {
+                destination: '/auth/login?p=/checkout/address',
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {
+            
+        }
+    }
 }
