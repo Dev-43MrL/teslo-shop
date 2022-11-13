@@ -1,12 +1,12 @@
-import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
-import { AuthLayout } from "../../components/layouts";
-import NextLink from "next/link";
-import { useForm } from "react-hook-form";
-import { tesloApi } from "../../api";
-import { validations } from "../../utils";
 import { useState, useContext } from 'react';
-import { ErrorOutline } from "@mui/icons-material";
+import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
+import NextLink from "next/link";
 import { useRouter } from 'next/router';
+import { useForm } from "react-hook-form";
+import { validations } from "../../utils";
+import { ErrorOutline } from "@mui/icons-material";
+
+import { AuthLayout } from "../../components/layouts";
 import { AuthContext } from "../../context";
 
 type FormData = {
@@ -39,7 +39,8 @@ export default function RegisterPage() {
 			setTimeout(() => setShowError(false), 3000);
 			return;
 		}
-		router.replace('/');
+		const destination = router.query.p?.toString() || '/';
+		router.replace(destination);
 	};
 
 	return (
@@ -120,7 +121,7 @@ export default function RegisterPage() {
 						</Grid>
 
 						<Grid item xs={12} display="flex" justifyContent="end">
-							<NextLink href="/auth/login" passHref>
+							<NextLink href={ router.query.p ? `/auth/login ${ router.query.p }` : '/auth/login'} passHref>
 								<Link underline="always">¿Ya tienes cuenta?</Link>
 							</NextLink>
 						</Grid>
