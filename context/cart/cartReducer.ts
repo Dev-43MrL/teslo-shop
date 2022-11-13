@@ -20,6 +20,7 @@ export const cartReducer = ( state: CartState, action: CartActionType ): CartSta
             
             return {
                 ...state,
+                isLoaded: true,
                 cart: [ ...action.payload ]
             }
         
