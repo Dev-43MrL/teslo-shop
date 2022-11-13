@@ -1,7 +1,7 @@
 import { FC, useReducer, useEffect } from "react";
 import { ICartProduct } from "../../interfaces";
 import { CartContext, cartReducer } from "./";
-import Cookie from "js-cookie";
+import Cookies from "js-cookie";
 
 export interface CartState {
   isLoaded: boolean;
@@ -9,8 +9,20 @@ export interface CartState {
   numberOfItems: number,
   subTotal: number,
   tax: number,
-  total: number 
+  total: number,
+  shippingAddress?: ShippingAddress  
 }
+
+export interface ShippingAddress {
+  firstName: string;
+  lastName: string;
+  address: string;
+  address2?: string;
+  zip: string;
+  city: string;
+  country: string;
+  phone: string;
+}; 
 
 const CART_INITIAL_STATE: CartState = {
   isLoaded: false,
@@ -18,7 +30,8 @@ const CART_INITIAL_STATE: CartState = {
   numberOfItems: 0,
   subTotal: 0,
   tax: 0,
-  total: 0 
+  total: 0,
+  shippingAddress: undefined 
 };
 
 export const CartProvider: FC = ({ children }) => {
@@ -26,15 +39,32 @@ export const CartProvider: FC = ({ children }) => {
 
   useEffect(() => {
     try {
-      const cookieProducts = Cookie.get("cart") ? JSON.parse(Cookie.get("cart")!) : [];
+      const cookieProducts = Cookies.get("cart") ? JSON.parse(Cookies.get("cart")!) : [];
       dispatch({ type: "[CART] - LoadCart from cookies | storage", payload: cookieProducts });
     } catch (error) {
       dispatch({ type: "[CART] - LoadCart from cookies | storage", payload: [] });
     }
   }, []);
+  
+  useEffect(() => {
+    if( Cookies.get('firstName') ){
+      const shippingAddress = {
+        firstName: Cookies.get('firstName') || '',
+        lastName: Cookies.get('lastName') || '',
+        address: Cookies.get('address') || '',
+        address2: Cookies.get('address2') || '',
+        zip: Cookies.get('zip') || '',
+        city: Cookies.get('city') || '',
+        country: Cookies.get('country') || '',
+        phone: Cookies.get('phone') || '',
+      }
+      dispatch({ type: '[CART] - LoadAddress from Cookies', payload: shippingAddress })
+    }
+  }, [])
+  
 
   useEffect(() => {
-    Cookie.set("cart", JSON.stringify(state.cart));
+    Cookies.set("cart", JSON.stringify(state.cart));
   }, [state.cart]);
 
   useEffect(() => {
